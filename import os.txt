@@ -1,0 +1,10 @@
+import os
+
+# Get the current working directory
+current_directory = os.getcwd()
+
+# Navigate to the directory where your script is located
+os.chdir('C:/Users/bhara')  # Replace this path with the correct path to the directory containing your script
+
+# Execute the Python script
+exec(open('health_care.py').read())

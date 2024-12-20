@@ -1,0 +1,31 @@
+import email
+import imaplib
+
+# Connect to your email server (e.g., Gmail) and login
+mail = imaplib.IMAP4_SSL('imap.example.com')
+mail.login('your_email@example.com', 'your_password')
+
+# Select the mailbox (e.g., Inbox)
+mail.select('inbox')
+
+# Search for emails and fetch their headers
+status, email_ids = mail.search(None, 'ALL')
+email_ids = email_ids[0].split()
+
+for email_id in email_ids:
+    status, msg_data = mail.fetch(email_id, '(BODY[HEADER.FIELDS (FROM TO SUBJECT DATE)])')
+    msg = email.message_from_bytes(msg_data[0][1])
+
+    # Access the headers
+    from_address = msg['From']
+    to_address = msg['To']
+    subject = msg['Subject']
+    date = msg['Date']
+
+    print(f'From: {from_address}')
+    print(f'To: {to_address}')
+    print(f'Subject: {subject}')
+    print(f'Date: {date}')
+
+# Close the mailbox and logout
+mail.logout()
